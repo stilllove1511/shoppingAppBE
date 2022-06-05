@@ -3,6 +3,7 @@ import logController from "../controllers/logController"
 import productController from '../controllers/productController'
 import orderController from "../controllers/orderController"
 import userController from '../controllers/userController'
+import jwtService from '../services/jwtService'
 
 const router = express.Router()
 
@@ -24,6 +25,8 @@ const initAppRoutes = (app) => {
     router.get('/user/read', userController.read)
     router.put('/user/update', userController.update)
     router.delete('/user/destroy', userController.destroy)
+
+    router.post('/test',jwtService.getGroupWithRoles)
 
     return app.use(router)
 }

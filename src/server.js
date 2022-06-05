@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 8080
 
 db.connect()
 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
