@@ -16,7 +16,7 @@ db.connect()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-initAppRoutes(app)
+initAppRoutes(app);
 
 app.use((req, res) => {
     return res.send('nham api roi :(')

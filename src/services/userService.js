@@ -1,8 +1,43 @@
 import User from '../models/user'
+const bcrypt = require('bcryptjs');
+
+const salt = bcrypt.genSaltSync(10);
+
+const hashUserPassword = (userPassword) => {
+    let hashPassword = bcrypt.hashSync(userPassword, salt);
+    return hashPassword
+}
+
+const checkUsernameExist = async (username) => {
+    let user = await User.findOne({
+        username: username
+    })
+
+    if (user) {
+        return true
+    }
+    return false
+}
+
+
 
 const create = async (userData) => {
     try {
-        await User.create(userData)
+        let isUsernameExist = await checkUsernameExist(userData.username)
+
+        if (isUsernameExist) {
+            return {
+                EM: 'the email is already exist',
+                EC: 1
+            }
+        }
+
+        let hashPassword = hashUserPassword(userData.password)
+
+        await User.create({
+            username: userData.username,
+            password: hashPassword,
+        })
         return {
             EM: 'create user successfully!!',
             EC: 0,
@@ -13,14 +48,14 @@ const create = async (userData) => {
         return {
             EM: 'somtthing wrong in service!!',
             EC: -1,
-            DR: ''
+            DT: ''
         }
     }
 }
 
 const read = async () => {
     try {
-        let users = await User.find({})
+        let users = await User.find({}).select('-password -__v')
         return {
             EM: 'get user successfully!!',
             EC: 0,
