@@ -18,9 +18,9 @@ const create = async (orderData) => {
     }
 }
 
-const read = async () => {
+const read = async (userId) => {
     try {
-        let orders = await Order.find({}).populate('product', '-__v')
+        let orders = await Order.find({user:userId}).populate('product', '-__v')
         return {
             EM: 'get order successfully!!',
             EC: 0,
@@ -36,13 +36,29 @@ const read = async () => {
     }
 }
 
-const destroy = async (orderId) => {
+const destroy = async (ids) => {
     try {
-        await Order.deleteOne({ _id: orderId })
-        return {
-            EM: 'delete order successfully!!',
-            EC: 0,
-            DT: ''
+        let order = await Order.findOne({ _id: ids.orderId })
+        if(order){
+            if (order.user.toString() !== ''+ids.userId)
+                return {
+                    EM: 'you do not have permission to perfrom this action',
+                    EC: -2,
+                    DT: []
+                }
+
+            await order.delete()
+            return {
+                EM: 'Deleted',
+                EC: 0,
+                DT: []
+            }
+        }  else {
+            return {
+                EM: 'order does not exist',
+                EC: 2,
+                DT: []
+            }
         }
     } catch (error) {
         console.log(error)
