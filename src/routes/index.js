@@ -3,7 +3,9 @@ import logController from "../controllers/logController"
 import productController from '../controllers/productController'
 import orderController from "../controllers/orderController"
 import userController from '../controllers/userController'
-import jwtService from '../services/jwtService'
+import Group from '../models/group'
+import Role from '../models/role'
+
 
 const router = express.Router()
 
@@ -26,7 +28,41 @@ const initAppRoutes = (app) => {
     router.put('/user/update', userController.update)
     router.delete('/user/destroy', userController.destroy)
 
-    router.post('/test',jwtService.getGroupWithRoles)
+    
+
+    router.get('/test',async (req, res) => {
+        let roles = await Group.findOne({id:'629ccd4c2bd2c987e34d28c5'}).populate('roles')
+        return res.status(200).json({DT:roles ? roles : {}})
+    })
+
+
+    // router.get('/create-role',async (req, res) => {
+    //     Role.create({
+    //         url:'/product/create'
+    //     })
+    //     await Role.create({
+    //         url:'/product/read'
+    //     })
+    //     await Role.create({
+    //         url:'/product/update'
+    //     })
+    //     await Role.create({
+    //         url:'/product/destroy'
+    //     })
+
+    //     Role.create({
+    //         url:'/user/create'
+    //     })
+    //     await Role.create({
+    //         url:'/user/read'
+    //     })
+    //     await Role.create({
+    //         url:'/user/update'
+    //     })
+    //     await Role.create({
+    //         url:'/user/destroy'
+    //     })
+    // })
 
     return app.use(router)
 }

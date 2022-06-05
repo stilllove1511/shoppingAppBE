@@ -12,6 +12,4 @@ const orderSchema = new mongoose.Schema({
     quantity: Number
 })
 
-const Order = mongoose.model('Order', orderSchema, 'orders');
-
-export default Order;
+export default mongoose.model('Order', orderSchema, 'orders');
