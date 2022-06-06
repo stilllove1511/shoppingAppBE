@@ -1,6 +1,6 @@
-const User = require('../models/user')
+import User from '../models/user'
 const bcrypt = require('bcryptjs');
-import { createJWT } from '../middlewares/JWTAction';
+import JWTAction from '../middlewares/JWTAction';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -71,7 +71,7 @@ const login = async (rawData) => {
                     id: user.id,
                     username: user.username,
                 }
-                let token = createJWT(payload)
+                let token = JWTAction.createJWT(payload)
                 return {
                     EM: 'ok!',
                     EC: 0,

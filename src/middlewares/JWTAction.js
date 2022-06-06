@@ -1,8 +1,7 @@
 require('dotenv').config()
 const { cookie } = require('express/lib/response')
 const jwt = require('jsonwebtoken')
-
-const nonSecurePaths = ['/', '/login', '/register']
+import jwtService from '../services/jwtService'
 
 const createJWT = (payload) => {
     let key = process.env.JWT_SECRET
@@ -38,9 +37,6 @@ const extractToken = (req) => {
 }
 
 const checkUserJWT = (req, res, next) => {
-    if (nonSecurePaths.includes(req.path))
-        return next()
-
     let cookies = req.cookies
     let tokenFromHeader = extractToken(req)
 
@@ -81,7 +77,47 @@ const checkUserJWT = (req, res, next) => {
     }
 }
 
+const checkUserPermission = async (req, res, next) => {
 
-module.exports = {
-    createJWT, verifyToken, checkUserJWT,
+    let cookies = req.cookies
+    let tokenFromHeader = extractToken(req)
+    let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader
+    if (token) {
+        let decoded = verifyToken(token)
+        let userId = decoded.id
+
+        let getRolesReuturn = await jwtService.getRoles(userId)
+        let roles = getRolesReuturn.DT
+        let currentUrl = req.originalUrl
+        if (!roles || roles.length === 0) {
+            return res.status(403).json({
+                EC: -1,
+                DT: '',
+                EM: 'You dont have permisson to this resource'
+            })
+        }
+
+
+        let canAccess = roles.some(item => item.url === currentUrl)
+        if (canAccess) {
+            next()
+        } else {
+            return res.status(403).json({
+                EC: -1,
+                DT: '',
+                EM: 'You dont have permisson to this resource'
+            })
+        }
+    } else {
+        return res.status(403).json({
+            EC: -1,
+            DT: '',
+            EM: 'untoken'
+        })
+    }
+
+}
+
+export default {
+    createJWT, verifyToken, checkUserJWT, checkUserPermission
 }

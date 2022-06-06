@@ -1,5 +1,5 @@
 import orderService from "../services/orderService"
-import { verifyToken  } from '../middlewares/JWTAction'
+import { verifyToken } from '../middlewares/JWTAction'
 
 
 const extractToken = (req) => {
@@ -11,7 +11,7 @@ const extractToken = (req) => {
 
 
 const create = async (req, res) => {
-    
+
     try {
         let cookies = req.cookies
         let tokenFromHeader = extractToken(req)
@@ -20,7 +20,7 @@ const create = async (req, res) => {
         console.log(decoded)
         let userId = decoded.id
 
-        let data = await orderService.create({...req.body,user: userId})
+        let data = await orderService.create({ ...req.body, user: userId })
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -28,11 +28,11 @@ const create = async (req, res) => {
         })
     } catch (error) {
         console.log(error)
-        return {
+        return res.status(500).json({
             EM: 'something wrong from server!!',
             EC: -1,
             DR: ''
-        }
+        })
     }
 }
 
@@ -53,11 +53,11 @@ const read = async (req, res) => {
         })
     } catch (error) {
         console.log(error)
-        return {
+        return res.status(500).json({
             EM: 'something wrong from server!!',
             EC: -1,
             DR: ''
-        }
+        })
     }
 }
 
@@ -79,11 +79,11 @@ const destroy = async (req, res) => {
         })
     } catch (error) {
         console.log(error)
-        return {
+        return res.status(500).json({
             EM: 'something wrong from server!!',
             EC: -1,
             DR: ''
-        }
+        })
     }
 }
 
