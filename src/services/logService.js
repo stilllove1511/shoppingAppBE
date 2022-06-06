@@ -68,6 +68,7 @@ const login = async (rawData) => {
             let isCorrectPassword = checkPassword(rawData.password, user.password)
             if (isCorrectPassword) {
                 let payload = {
+                    _id: user.id,
                     id: user.id,
                     username: user.username,
                 }

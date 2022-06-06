@@ -72,8 +72,12 @@ const read = async () => {
 }
 
 const update = async (userData) => {
+    let hashPassword = hashUserPassword(userData.password)
     try {
-        await User.updateOne({ _id: userData._id }, userData)
+        await User.updateOne({ _id: userData._id }, {
+            username: userData.username,
+            password: hashPassword,
+        })
         return {
             EM: 'update User successfully!',
             EC: 0,

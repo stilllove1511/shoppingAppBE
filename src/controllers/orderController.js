@@ -1,5 +1,5 @@
 import orderService from "../services/orderService"
-import { verifyToken } from '../middlewares/JWTAction'
+import JWTAction from '../middlewares/JWTAction'
 
 
 const extractToken = (req) => {
@@ -41,7 +41,7 @@ const read = async (req, res) => {
         let cookies = req.cookies
         let tokenFromHeader = extractToken(req)
         let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader
-        let decoded = verifyToken(token)
+        let decoded = JWTAction.verifyToken(token)
         console.log(decoded)
         let userId = decoded.id
 
