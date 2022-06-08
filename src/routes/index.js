@@ -3,6 +3,8 @@ import orderRouter from './order'
 import productRouter from './product'
 import userRouter from './user'
 import accountRouter from './account'
+import test1 from '../middlewares/test1'
+import test2 from '../middlewares/test2'
 import db from '../models/index'
 
 const initAppRoutes = (app) => {
@@ -12,14 +14,10 @@ const initAppRoutes = (app) => {
     app.use('/user/', userRouter)
     app.use('/account/', accountRouter)
 
-    // app.use('/test', async (req, res) => {
-    //     let data = await db.User.updateOne(
-    //         { _id: '629dd4b3d92a1573663ef1e8' },
-    //         {
-    //             password: 'eqw'
-    //         }
-    //     )
-
+    app.use('/test', test1, test2, async (req, res) => {
+        console.log('controller: ', req.passvar)
+        res.send('ok')
+    })
     //     res.status(200).json({
     //         DT: data
     //     })
