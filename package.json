@@ -5,19 +5,13 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./build/src/server.js",
+    "start": "nodemon --exec ./node_modules/.bin/babel-node ./src/server.js",
     "build": "babel ./src -d ./build/src",
     "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/server.js"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.18.2",
-    "@babel/node": "^7.17.10",
-    "@babel/plugin-transform-runtime": "^7.18.2",
-    "@babel/preset-env": "^7.18.2"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@babel/runtime": "^7.18.3",
     "bcryptjs": "^2.4.3",
@@ -26,6 +20,11 @@
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.4",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.2",
+    "@babel/node": "^7.17.10",
+    "@babel/plugin-transform-runtime": "^7.18.2",
+    "@babel/preset-env": "^7.18.2"
   }
 }
