@@ -23,6 +23,6 @@ app.use((req, res) => {
     return res.send('nham api roi :(')
 })
 
-app.listen(PORT, hostname, () => {
+app.listen(PORT, () => {
     console.log(`Server is running on site ${hostname}:${PORT}`)
 })
