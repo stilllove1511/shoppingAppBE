@@ -3,6 +3,9 @@ import bodyParser from 'body-parser'
 
 import initAppRoutes from './routes/index'
 import db from './config/db'
+import {
+    configCors
+} from './config/cors'
 
 require('dotenv').config()
 
@@ -17,6 +20,7 @@ db.connect()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+configCors(app)
 initAppRoutes(app);
 
 app.use((req, res) => {
