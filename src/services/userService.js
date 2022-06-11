@@ -55,7 +55,7 @@ const create = async (userData) => {
 
 const read = async () => {
     try {
-        let users = await User.find({}).select('-password -__v')
+        let users = await User.find({}).select('-password -__v').populate('group')
         return {
             EM: 'get user successfully!!',
             EC: 0,

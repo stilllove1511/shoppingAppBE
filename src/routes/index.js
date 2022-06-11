@@ -14,20 +14,38 @@ const initAppRoutes = (app) => {
     app.use('/user/', userRouter)
     app.use('/account/', accountRouter)
 
-    app.use('/test', test1, test2, async (req, res) => {
-        console.log('controller: ', req.passvar)
-        res.send('ok')
+    app.use('/seeder', async (req, res) => {
+        db.Group.create({
+            name: 'admin'
+        })
+        db.Group.create({
+            name: 'user'
+        })
+        db.Role.create({
+            url: '/user/create'
+        })
+        db.Role.create({
+            url: '/user/read'
+        })
+        db.Role.create({
+            url: '/user/update'
+        })
+        db.Role.create({
+            url: '/user/destroy'
+        })
+        db.Role.create({
+            url: '/product/create'
+        })
+        db.Role.create({
+            url: '/product/read'
+        })
+        db.Role.create({
+            url: '/product/update'
+        })
+        db.Role.create({
+            url: '/product/destroy'
+        })
     })
-    //     res.status(200).json({
-    //         DT: data
-    //     })
-    // })
-
-    // app.use('/cg', async (req, res) => {
-    //     db.Group.create({
-    //         name: 'ad'
-    //     })
-    // })
 }
 
 export default initAppRoutes
